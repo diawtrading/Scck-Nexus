@@ -38,10 +38,10 @@ ChartJS.register(
 )
 
 const kpiCards = [
-  { title: 'Total Producteurs', value: '1,247', change: '+12%', trend: 'up', icon: Users },
-  { title: 'Collectes (MT)', value: '458.2', change: '+8.5%', trend: 'up', icon: Package },
-  { title: 'Revenus (FCFA)', value: '2.4B', change: '+15.3%', trend: 'up', icon: DollarSign },
-  { title: 'Articles en Stock', value: '342', change: '-2.1%', trend: 'down', icon: Boxes },
+  { title: 'Total Producers', value: '1,247', change: '+12%', trend: 'up', icon: Users },
+  { title: 'Collections (MT)', value: '458.2', change: '+8.5%', trend: 'up', icon: Package },
+  { title: 'Revenue (FCFA)', value: '2.4B', change: '+15.3%', trend: 'up', icon: DollarSign },
+  { title: 'Inventory Items', value: '342', change: '-2.1%', trend: 'down', icon: Boxes },
 ]
 
 const containerVariants = {
@@ -85,9 +85,9 @@ export default function Dashboard() {
 
   // Revenue Chart Data
   const revenueChartData = {
-    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [{
-      label: 'Revenus (FCFA)',
+      label: 'Revenue (FCFA)',
       data: [320000000, 380000000, 410000000, 390000000, 450000000, 520000000],
       borderColor: '#00f0ff',
       backgroundColor: 'rgba(0, 240, 255, 0.1)',
@@ -102,7 +102,7 @@ export default function Dashboard() {
 
   // Quality Distribution Chart
   const qualityChartData = {
-    labels: ['Grade A', 'Grade B', 'Grade C', 'Rejeté'],
+    labels: ['Grade A', 'Grade B', 'Grade C', 'Rejected'],
     datasets: [{
       data: [45, 30, 15, 10],
       backgroundColor: ['#00ff88', '#00f0ff', '#ffaa00', '#ff3366'],
@@ -115,7 +115,7 @@ export default function Dashboard() {
   const zoneChartData = {
     labels: ['Zone Nord', 'Zone Sud', 'Zone Est', 'Zone Ouest', 'Zone Centre'],
     datasets: [{
-      label: 'Collectes (MT)',
+      label: 'Collections (MT)',
       data: [120, 95, 80, 75, 88],
       backgroundColor: [
         'rgba(0, 240, 255, 0.8)',
@@ -177,14 +177,14 @@ export default function Dashboard() {
       {/* Page Header */}
       <motion.div variants={itemVariants} className="flex items-center justify-between">
         <div>
-          <h1 className="font-display font-bold text-2xl text-white">Tableau de Bord</h1>
-          <p className="text-gray-500 text-sm mt-1">Bienvenue! Voici l'aperçu de votre coopérative.</p>
+          <h1 className="font-display font-bold text-2xl text-white">Dashboard</h1>
+          <p className="text-gray-500 text-sm mt-1">Welcome back! Here's your cooperative overview.</p>
         </div>
         <select className="px-4 py-2 bg-white/5 border border-dark-border rounded-xl text-white text-sm focus:outline-none focus:border-accent-cyan/50">
-          <option>30 Derniers Jours</option>
-          <option>7 Derniers Jours</option>
-          <option>90 Derniers Jours</option>
-          <option>Cette Année</option>
+          <option>Last 30 Days</option>
+          <option>Last 7 Days</option>
+          <option>Last 90 Days</option>
+          <option>This Year</option>
         </select>
       </motion.div>
 
@@ -224,7 +224,7 @@ export default function Dashboard() {
           variants={itemVariants}
           className="lg:col-span-2 glass rounded-xl p-6"
         >
-          <h3 className="font-display font-semibold text-lg text-white mb-4">Tendance des Revenus</h3>
+          <h3 className="font-display font-semibold text-lg text-white mb-4">Revenue Trend</h3>
           <div className="h-[300px]">
             <Line data={revenueChartData} options={chartOptions} />
           </div>
@@ -232,7 +232,7 @@ export default function Dashboard() {
 
         {/* Quality Distribution */}
         <motion.div variants={itemVariants} className="glass rounded-xl p-6">
-          <h3 className="font-display font-semibold text-lg text-white mb-4">Distribution par Qualité</h3>
+          <h3 className="font-display font-semibold text-lg text-white mb-4">Quality Distribution</h3>
           <div className="h-[300px]">
             <Doughnut data={qualityChartData} options={doughnutOptions} />
           </div>
@@ -241,7 +241,7 @@ export default function Dashboard() {
 
       {/* Zone Performance */}
       <motion.div variants={itemVariants} className="glass rounded-xl p-6">
-        <h3 className="font-display font-semibold text-lg text-white mb-4">Collectes par Zone</h3>
+        <h3 className="font-display font-semibold text-lg text-white mb-4">Collections by Zone</h3>
         <div className="h-[300px]">
           <Bar data={zoneChartData} options={chartOptions} />
         </div>
@@ -249,14 +249,14 @@ export default function Dashboard() {
 
       {/* Recent Activity */}
       <motion.div variants={itemVariants} className="glass rounded-xl p-6">
-        <h3 className="font-display font-semibold text-lg text-white mb-4">Activité Récente</h3>
+        <h3 className="font-display font-semibold text-lg text-white mb-4">Recent Activity</h3>
         <div className="space-y-4">
           {[
-            { title: 'Nouveau producteur enregistré', time: 'Il y a 2 minutes', type: 'success' },
-            { title: 'Collecte enregistrée - Zone Nord', time: 'Il y a 15 minutes', type: 'info' },
-            { title: 'Paiement traité - 45 000$', time: 'Il y a 1 heure', type: 'success' },
-            { title: 'Alerte stock bas - Engrais', time: 'Il y a 2 heures', type: 'warning' },
-            { title: 'Nouvelle commande de Buyer Corp', time: 'Il y a 3 heures', type: 'info' },
+            { title: 'New producer registered', time: '2 minutes ago', type: 'success' },
+            { title: 'Collection recorded - Zone Nord', time: '15 minutes ago', type: 'info' },
+            { title: 'Payment processed - $45,000', time: '1 hour ago', type: 'success' },
+            { title: 'Low stock alert - Fertilizers', time: '2 hours ago', type: 'warning' },
+            { title: 'New order from Buyer Corp', time: '3 hours ago', type: 'info' },
           ].map((activity, index) => (
             <div key={index} className="flex items-center gap-4 p-3 rounded-lg hover:bg-white/5 transition-colors">
               <div className={`w-2 h-2 rounded-full ${

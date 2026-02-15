@@ -5,9 +5,9 @@ import { Eye, EyeOff, Leaf, Loader2 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 const demoAccounts = [
-  { email: 'ceo@scck.com', name: 'PDG', role: 'Directeur Général' },
-  { email: 'cfo@scck.com', name: 'DFC', role: 'Directeur Financier' },
-  { email: 'ops@scck.com', name: 'DO', role: 'Directeur des Opérations' },
+  { email: 'ceo@scck.com', name: 'CEO', role: 'Chief Executive' },
+  { email: 'cfo@scck.com', name: 'CFO', role: 'Chief Finance' },
+  { email: 'ops@scck.com', name: 'COO', role: 'Operations' },
 ]
 
 export default function Login() {
@@ -28,7 +28,7 @@ export default function Login() {
       await login(email, password)
       navigate('/')
     } catch (err) {
-      setError(err.response?.data?.error || 'Échec de la connexion. Veuillez réessayer.')
+      setError(err.response?.data?.error || 'Login failed. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -42,7 +42,7 @@ export default function Login() {
       await demoLogin(demoEmail)
       navigate('/')
     } catch (err) {
-      setError('Échec de la connexion démo. Veuillez réessayer.')
+      setError('Demo login failed. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -75,31 +75,31 @@ export default function Login() {
           <h1 className="font-display font-bold text-3xl text-gradient mb-2">
             SCCK ERP NEXUS
           </h1>
-          <p className="text-gray-400">Système de Gestion Intégré</p>
+          <p className="text-gray-400">Enterprise Resource Planning System</p>
         </div>
 
         {/* Login Card */}
         <div className="glass rounded-2xl p-8">
-          <h2 className="font-display font-bold text-xl text-white mb-6">Bienvenue</h2>
+          <h2 className="font-display font-bold text-xl text-white mb-6">Welcome Back</h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Adresse Email
+                Email Address
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 bg-white/5 border border-dark-border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-accent-cyan/50 transition-colors"
-                placeholder="vous@scck.com"
+                placeholder="you@scck.com"
                 required
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Mot de Passe
+                Password
               </label>
               <div className="relative">
                 <input
@@ -107,7 +107,7 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-3 pr-12 bg-white/5 border border-dark-border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-accent-cyan/50 transition-colors"
-                  placeholder="Entrez votre mot de passe"
+                  placeholder="Enter your password"
                   required
                 />
                 <button
@@ -138,10 +138,10 @@ export default function Login() {
               {loading ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  Connexion...
+                  Signing in...
                 </>
               ) : (
-                'Se Connecter'
+                'Sign In'
               )}
             </button>
           </form>
@@ -149,7 +149,7 @@ export default function Login() {
           {/* Demo Accounts */}
           <div className="mt-8 pt-6 border-t border-dark-border">
             <p className="text-xs text-gray-500 uppercase tracking-wider mb-4">
-              Accès Démo Rapide
+              Quick Demo Access
             </p>
             <div className="grid grid-cols-3 gap-2">
               {demoAccounts.map((account) => (
@@ -169,7 +169,7 @@ export default function Login() {
 
         {/* Footer */}
         <p className="text-center text-gray-500 text-sm mt-6">
-          © 2026 SCCK Coopérative Cacaoyère. Tous droits réservés.
+          © 2026 SCCK Cocoa Cooperative. All rights reserved.
         </p>
       </motion.div>
     </div>

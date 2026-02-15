@@ -17,17 +17,17 @@ import {
 } from 'lucide-react'
 
 const navItems = [
-  { name: 'Tableau de Bord', icon: LayoutDashboard, path: '/' },
-  { name: 'Producteurs', icon: Users, path: '/producers' },
-  { name: 'Collectes', icon: Package, path: '/collections' },
+  { name: 'Dashboard', icon: LayoutDashboard, path: '/' },
+  { name: 'Producers', icon: Users, path: '/producers' },
+  { name: 'Collections', icon: Package, path: '/collections' },
   { name: 'Finance', icon: Wallet, path: '/finance' },
-  { name: 'Inventaire', icon: Boxes, path: '/inventory' },
-  { name: 'Employés', icon: UserCog, path: '/employees' },
-  { name: 'Clients', icon: Building2, path: '/customers' },
-  { name: 'Fournisseurs', icon: Truck, path: '/suppliers' },
-  { name: 'Projets', icon: TrendingUp, path: '/projects' },
-  { name: 'Rapports', icon: FileText, path: '/reports' },
-  { name: 'Paramètres', icon: Settings, path: '/settings' },
+  { name: 'Inventory', icon: Boxes, path: '/inventory' },
+  { name: 'Employees', icon: UserCog, path: '/employees' },
+  { name: 'Customers', icon: Building2, path: '/customers' },
+  { name: 'Suppliers', icon: Truck, path: '/suppliers' },
+  { name: 'Projects', icon: TrendingUp, path: '/projects' },
+  { name: 'Reports', icon: FileText, path: '/reports' },
+  { name: 'Settings', icon: Settings, path: '/settings' },
 ]
 
 const mainNavItems = navItems.slice(0, 6)
@@ -45,7 +45,7 @@ export default function Sidebar({ onClose }) {
             </div>
             <div>
               <h1 className="font-display font-bold text-lg text-gradient">SCCK ERP</h1>
-              <p className="text-xs text-gray-500">Plateforme Nexus</p>
+              <p className="text-xs text-gray-500">Nexus Platform</p>
             </div>
           </div>
           <button 
@@ -62,7 +62,7 @@ export default function Sidebar({ onClose }) {
         {/* Main Section */}
         <div className="mb-6">
           <h3 className="px-3 mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            Menu Principal
+            Main Menu
           </h3>
           <ul className="space-y-1">
             {mainNavItems.map((item) => (
@@ -87,7 +87,7 @@ export default function Sidebar({ onClose }) {
         {/* Secondary Section */}
         <div>
           <h3 className="px-3 mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            Plus
+            More
           </h3>
           <ul className="space-y-1">
             {secondaryNavItems.map((item) => (
@@ -113,7 +113,7 @@ export default function Sidebar({ onClose }) {
       {/* Footer */}
       <div className="p-4 border-t border-dark-border">
         <div className="glass rounded-xl p-4">
-          <p className="text-xs text-gray-500 mb-2">Coopérative Cacaoyère</p>
+          <p className="text-xs text-gray-500 mb-2">Cocoa Cooperative</p>
           <p className="text-sm font-medium text-white">SCCK NEXUS</p>
           <p className="text-xs text-gray-500 mt-1">v1.0.0</p>
         </div>

@@ -36,9 +36,13 @@ const UnifiedDatabase = require('./db/unified');
 const db = new UnifiedDatabase();
 db.initialize();
 
-// Static files
-app.use(express.static(path.join(__dirname, 'src')));
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
+// Static files (production build)
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
+} else {
+  app.use(express.static(path.join(__dirname, 'src')));
+  app.use('/assets', express.static(path.join(__dirname, 'assets')));
+}
 
 // API Routes
 app.use('/api/auth', require('./api/auth')(db));
@@ -55,7 +59,20 @@ app.use('/api/reports', require('./api/reports')(db));
 
 // Frontend routes
 app.get('/', (req, res) => {
+  if (process.env.NODE_ENV === 'production') {
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+  } else {
     res.sendFile(path.join(__dirname, 'src', 'index.html'));
+  }
+});
+
+// SPA fallback for React Router
+app.get('*', (req, res) => {
+  if (process.env.NODE_ENV === 'production') {
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+  } else {
+    res.sendFile(path.join(__dirname, 'src', 'index.html'));
+  }
 });
 
 // Error handling middleware
