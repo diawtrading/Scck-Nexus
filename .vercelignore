@@ -1,0 +1,43 @@
+# Vercel Build Output
+.vercel
+.vercel/output
+
+# Dependencies
+node_modules
+
+# Development
+.env.local
+.env.*.local
+.vscode
+.idea
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+data/
+
+# Backups
+backups/
+
+# Uploads (handled separately)
+uploads/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tests
+.jest_cache
+
+# Build artifacts
+dist/
+build/
+
+# Git
+.git
+.gitignore

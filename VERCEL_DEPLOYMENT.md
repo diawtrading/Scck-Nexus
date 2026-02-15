@@ -1,144 +1,149 @@
-# SCCK ERP NEXUS - Vercel Deployment Guide
+# Vercel Deployment Configuration
 
-## Using Your Vercel Token
+This document outlines the environment variables and configuration needed to deploy SCCK ERP NEXUS to Vercel.
 
-Your Vercel token: (Set in VERCEL_TOKEN environment variable)
+## Environment Variables for Vercel
 
-## Option 1: Deploy from Command Line (Recommended)
+Set the following environment variables in your Vercel project dashboard:
 
-### Step 1: Install Vercel CLI
+### Security Configuration
+```
+JWT_SECRET=<generate-with: openssl rand -base64 32>
+SESSION_SECRET=<generate-with: openssl rand -base64 32>
+```
+
+### Server Configuration
+```
+NODE_ENV=production
+PORT=3000
+```
+
+### Database Configuration
+```
+DB_PATH=/tmp/scck_erp.db
+```
+**Note:** Vercel's serverless functions have a `/tmp` directory for temporary storage. This is suitable for read-heavy operations but not recommended for persistent production data. Consider using PostgreSQL or MongoDB for production.
+
+### CORS Configuration
+```
+ALLOWED_ORIGINS=https://yourdomain.com,https://www.yourdomain.com
+```
+Update with your actual domain(s). Do NOT use localhost or http:// in production.
+
+### Rate Limiting
+```
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100
+```
+
+### File Upload
+```
+MAX_FILE_SIZE=10485760
+UPLOAD_DIR=/tmp/uploads
+```
+**Note:** Use a cloud storage service like AWS S3, Azure Blob, or Cloudinary for persistent file storage.
+
+### Logging
+```
+LOG_LEVEL=info
+```
+
+### Email Configuration (Optional)
+```
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+```
+
+## Deployment Steps
+
+### 1. Push to GitHub
 ```bash
-npm install -g vercel
+git add .
+git commit -m "Add Vercel configuration"
+git push origin main
 ```
 
-### Step 2: Login with Token
+### 2. Connect to Vercel
+1. Go to [vercel.com](https://vercel.com)
+2. Click "New Project"
+3. Select "Import Git Repository"
+4. Choose `diawtrading/Scck-Nexus`
+5. Click "Import"
+
+### 3. Configure Environment Variables
+1. In Vercel dashboard, go to Settings → Environment Variables
+2. Add all variables from the section above
+3. Generate secure values for JWT_SECRET and SESSION_SECRET:
+   ```bash
+   openssl rand -base64 32
+   ```
+
+### 4. Configure Build Settings
+- **Build Command:** `npm run vercel-build`
+- **Output Directory:** (leave blank - auto-detected)
+- **Install Command:** `npm ci`
+
+### 5. Deploy
+Click "Deploy" button in Vercel dashboard.
+
+## Important Notes
+
+### Database Considerations
+- SQLite on Vercel is limited to `/tmp` which is ephemeral (resets on redeploy)
+- For production, migrate to PostgreSQL using:
+  - Vercel Postgres
+  - AWS RDS
+  - Digital Ocean Managed Databases
+  - Railway.app
+
+### File Storage
+- Implement cloud storage for uploads:
+  - AWS S3
+  - Cloudinary
+  - Azure Blob Storage
+  - Digital Ocean Spaces
+
+### Monitoring
+- Add error tracking: Sentry, DataDog, or similar
+- Setup uptime monitoring
+- Configure alerts for critical errors
+
+### Custom Domain
+1. In Vercel dashboard, go to Domains
+2. Add your custom domain
+3. Update DNS records according to Vercel's instructions
+4. Update ALLOWED_ORIGINS environment variable
+
+## Testing Deployment
+
+After deployment, test critical endpoints:
 ```bash
-vercel login
-# Or use the token directly:
-vercel --token YOUR_VERCEL_TOKEN
+curl https://your-domain.com/api/health
+curl https://your-domain.com/api/auth/login -X POST -H "Content-Type: application/json"
 ```
-
-### Step 3: Configure Frontend Environment
-Create `frontend/.env`:
-```env
-VITE_API_URL=https://scck-api.up.railway.app
-```
-
-### Step 4: Deploy
-```bash
-# Navigate to project root
-cd SCCK_ERP_NEXUS
-
-# Deploy frontend only
-cd frontend
-vercel --token YOUR_VERCEL_TOKEN --prod
-```
-
-## Option 2: Deploy via GitHub Integration
-
-### Step 1: Connect Vercel to GitHub
-1. Go to https://vercel.com/dashboard
-2. Click "Add New Project"
-3. Import your GitHub repository: `diawtrading/Scck-Nexus`
-
-### Step 2: Configure Build Settings
-- **Framework Preset:** Vite
-- **Root Directory:** `frontend`
-- **Build Command:** `npm run build`
-- **Output Directory:** `dist`
-
-### Step 3: Environment Variables
-Add to Vercel project settings:
-```
-VITE_API_URL=https://scck-api.up.railway.app
-```
-
-### Step 4: Deploy
-Click "Deploy" - Vercel will automatically build and deploy.
-
-## Option 3: Deploy via Vercel REST API
-
-### Using cURL:
-```bash
-# Create deployment
-curl -X POST "https://api.vercel.com/v13/deployments" \
-  -H "Authorization: Bearer YOUR_VERCEL_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "scck-erp-frontend",
-    "framework": "vite",
-    "rootDirectory": "frontend"
-  }'
-```
-
-## Post-Deployment Steps
-
-### 1. Get Your Vercel URL
-After deployment, you'll get a URL like:
-```
-https://scck-erp-frontend.vercel.app
-```
-
-### 2. Update Railway CORS
-Add your Vercel URL to Railway environment variables:
-```
-ALLOWED_ORIGINS=https://scck-erp-frontend.vercel.app,https://scck-api.up.railway.app
-```
-
-### 3. Test the Application
-1. Visit your Vercel URL
-2. Login with demo credentials
-3. Verify all modules work
 
 ## Troubleshooting
 
-### Build Fails
-```bash
-# Check logs
-vercel logs --token YOUR_VERCEL_TOKEN
-```
+### 502 Bad Gateway
+- Check Vercel function logs
+- Verify all required environment variables are set
+- Check database connectivity
 
-### API Connection Issues
-1. Verify `VITE_API_URL` is set correctly
-2. Check Railway is running
-3. Verify CORS settings include Vercel domain
+### Database Connection Issues
+- Verify DB_PATH is set correctly
+- For PostgreSQL, check connection string format
+- Test connection locally before deploying
 
-### Domain Already Taken
-```bash
-# Use custom subdomain
-vercel --token YOUR_TOKEN --name scck-erp-prod
-```
+### JWT Token Errors
+- Ensure JWT_SECRET is set and consistent
+- Check token expiration (24h default)
+- Regenerate if needed
 
-## Quick Commands
+## Support
 
-```bash
-# Deploy
-vercel --token YOUR_VERCEL_TOKEN --prod
-
-# View logs
-vercel logs --token YOUR_VERCEL_TOKEN
-
-# List deployments
-vercel list --token YOUR_VERCEL_TOKEN
-
-# Remove deployment
-vercel remove --token YOUR_VERCEL_TOKEN
-```
-
-## Expected Output
-
-```
-🔍  Inspect: https://vercel.com/diawtrading/scck-erp-frontend/xxxxx [1s]
-✅  Production: https://scck-erp-frontend.vercel.app [copied to clipboard] [2s]
-📝  Deployed to production. Run `vercel --prod` to overwrite later (use `--target preview` to avoid this).
-```
-
-## Next Steps
-
-1. ✅ Frontend deployed to Vercel
-2. ⏳ Deploy backend to Railway
-3. ⏳ Setup Supabase tables
-4. ⏳ Configure CORS between services
-5. ⏳ Test complete application
-
-**Need help?** Check the full deployment guide: `DEPLOYMENT_GUIDE.md`
+For issues, check:
+- [Vercel Documentation](https://vercel.com/docs)
+- [Express.js Guide](https://expressjs.com)
+- [Better SQLite3 Docs](https://github.com/WiseLibs/better-sqlite3)
