@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  scck-erp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scck-erp-nexus
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_PATH: /app/data/scck_erp.db
+      JWT_SECRET: ${JWT_SECRET:-change-this-in-production-to-random-string}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    volumes:
+      - scck_data:/app/data
+      - scck_backups:/app/backups
+      - scck_uploads:/app/uploads
+    networks:
+      - scck-network
+    depends_on:
+      - scck-db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  scck-db:
+    image: sqlite:latest
+    container_name: scck-erp-db
+    restart: unless-stopped
+    volumes:
+      - scck_data:/app/data
+    networks:
+      - scck-network
+    command: >
+      sh -c "mkdir -p /app/data && 
+             touch /app/data/scck_erp.db &&
+             tail -f /dev/null"
+
+  scck-backup:
+    image: node:18-alpine
+    container_name: scck-erp-backup
+    restart: unless-stopped
+    volumes:
+      - scck_data:/app/data
+      - scck_backups:/app/backups
+    networks:
+      - scck-network
+    command: >
+      sh -c "while true; do 
+        sleep 86400 && 
+        cp /app/data/scck_erp.db /app/backups/scck_erp_$(date +%s).db.bak
+      ; done"
+
+volumes:
+  scck_data:
+    driver: local
+  scck_backups:
+    driver: local
+  scck_uploads:
+    driver: local
+
+networks:
+  scck-network:
+    driver: bridge
