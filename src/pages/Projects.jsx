@@ -18,7 +18,7 @@ const getStatusText = (status) => {
   return statusMap[status] || status
 }
 
-export default function Projects() {
+export { default } from '../../frontend/src/pages/Projects.jsx'
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       <div><h1 className="font-display font-bold text-2xl text-white">Projets</h1><p className="text-gray-500 text-sm mt-1">Gestion et suivi des projets</p></div>

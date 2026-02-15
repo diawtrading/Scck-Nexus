@@ -9,7 +9,7 @@ const transactions = [
   { id: 'TXN-005', type: 'income', description: 'Certification Bonus', amount: 500000, balance: 13150000, date: '2026-02-11' },
 ]
 
-export default function Finance() {
+export { default } from '../../frontend/src/pages/Finance.jsx'
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

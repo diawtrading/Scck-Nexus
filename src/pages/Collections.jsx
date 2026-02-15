@@ -16,7 +16,7 @@ const collections = [
   { id: 'COL-005', producer: 'Doumbia Mamadou', zone: 'Zone Centre', quantity: 110, quality: 'Grade A', price: 137500, date: '2026-02-12' },
 ]
 
-export default function Collections() {
+export { default } from '../../frontend/src/pages/Collections.jsx'
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

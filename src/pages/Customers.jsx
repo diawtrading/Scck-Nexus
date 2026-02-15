@@ -9,7 +9,7 @@ const customers = [
   { id: 'CUS-005', name: 'Nordic Sweets AB', contact: 'Anna Lindqvist', country: 'Suède', revenue: 15000000, status: 'Inactive' },
 ]
 
-export default function Customers() {
+export { default } from '../../frontend/src/pages/Customers.jsx'
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       <div><h1 className="font-display font-bold text-2xl text-white">Clients</h1><p className="text-gray-500 text-sm mt-1">Gestion des acheteurs et clients</p></div>

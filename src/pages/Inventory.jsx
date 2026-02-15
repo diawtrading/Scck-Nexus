@@ -9,7 +9,7 @@ const inventory = [
   { id: 'INV-005', name: 'Outils de Récolte', quantity: 45, unit: 'kits', value: 337500, location: 'Local Équipement', status: 'In Stock' },
 ]
 
-export default function Inventory() {
+export { default } from '../../frontend/src/pages/Inventory.jsx'
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       <div className="flex items-center justify-between">

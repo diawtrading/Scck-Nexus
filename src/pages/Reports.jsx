@@ -12,7 +12,7 @@ const reports = [
 
 const reportTypes = ['Tous', 'Finance', 'Production', 'RH', 'Inventaire', 'Producteurs', 'Clients']
 
-export default function Reports() {
+export { default } from '../../frontend/src/pages/Reports.jsx'
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       <div><h1 className="font-display font-bold text-2xl text-white">Rapports</h1><p className="text-gray-500 text-sm mt-1">Générer et exporter les rapports d'entreprise</p></div>

@@ -9,7 +9,7 @@ const employees = [
   { id: 'EMP-005', name: 'Balo Issiaka', position: 'Superviseur Terrain', department: 'Opérations', salary: 420000, status: 'Active', hireDate: '2023-04-05' },
 ]
 
-export default function Employees() {
+export { default } from '../../frontend/src/pages/Employees.jsx'
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       <div><h1 className="font-display font-bold text-2xl text-white">Employés</h1><p className="text-gray-500 text-sm mt-1">Gestion des ressources humaines</p></div>
