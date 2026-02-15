@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Settings as SettingsIcon, User, Bell, Shield, Palette, Globe, Database } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const settingsSections = [
   { id: 'profile', name: 'Profile', icon: User, description: 'Manage your account' },
@@ -14,10 +15,9 @@ export default function Settings() {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       <div><h1 className="font-display font-bold text-2xl text-white">Settings</h1><p className="text-gray-500 text-sm mt-1">Configure system preferences</p></div>
-      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {settingsSections.map((section) => (
-          <button key={section.id} className="glass rounded-xl p-6 text-left hover:border-accent-cyan/30 transition-colors group">
+          <Link key={section.id} to={`/settings/${section.id}`} className="glass rounded-xl p-6 text-left group block hover:border-accent-cyan/30 transition-colors">
             <div className="flex items-start gap-4">
               <div className="p-3 rounded-xl bg-white/5 group-hover:bg-accent-cyan/10 transition-colors">
                 <section.icon className="w-6 h-6 text-gray-400 group-hover:text-accent-cyan transition-colors" />
@@ -27,7 +27,7 @@ export default function Settings() {
                 <p className="text-sm text-gray-500">{section.description}</p>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
       </div>
 

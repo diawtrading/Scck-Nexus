@@ -10,7 +10,7 @@ const demoAccounts = [
   { email: 'ops@scck.com', name: 'DO', role: 'Directeur des Opérations' },
 ]
 
-export default function Login() {
+export { default } from '../../frontend/src/pages/Login.jsx'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)

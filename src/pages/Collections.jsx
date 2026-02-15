@@ -2,10 +2,10 @@ import { motion } from 'framer-motion'
 import { Package, TrendingUp, DollarSign, Calendar } from 'lucide-react'
 
 const stats = [
-  { label: 'Total Collections', value: '458.2 MT', icon: Package, color: 'cyan' },
-  { label: 'This Month', value: '78.5 MT', icon: Calendar, color: 'purple' },
-  { label: 'Average Price', value: '1,250 CFA/kg', icon: DollarSign, color: 'green' },
-  { label: 'Quality Grade A', value: '45%', icon: TrendingUp, color: 'yellow' },
+  { label: 'Total Collectes', value: '458.2 MT', icon: Package, color: 'cyan' },
+  { label: 'Ce Mois', value: '78.5 MT', icon: Calendar, color: 'purple' },
+  { label: 'Prix Moyen', value: '1 250 CFA/kg', icon: DollarSign, color: 'green' },
+  { label: 'Qualité Grade A', value: '45%', icon: TrendingUp, color: 'yellow' },
 ]
 
 const collections = [
@@ -24,8 +24,8 @@ export default function Collections() {
       className="space-y-6"
     >
       <div>
-        <h1 className="font-display font-bold text-2xl text-white">Collections</h1>
-        <p className="text-gray-500 text-sm mt-1">Track cocoa collections from producers</p>
+        <h1 className="font-display font-bold text-2xl text-white">Collectes</h1>
+        <p className="text-gray-500 text-sm mt-1">Suivre les collectes de cacao des producteurs</p>
       </div>
 
       {/* Stats */}
@@ -50,10 +50,10 @@ export default function Collections() {
             <thead>
               <tr className="border-b border-dark-border">
                 <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">ID</th>
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Producer</th>
+                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Producteur</th>
                 <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Zone</th>
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Quantity (kg)</th>
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Quality</th>
+                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Quantité (kg)</th>
+                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Qualité</th>
                 <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Total (CFA)</th>
                 <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Date</th>
               </tr>

@@ -18,7 +18,7 @@ export default function Finance() {
     >
       <div>
         <h1 className="font-display font-bold text-2xl text-white">Finance</h1>
-        <p className="text-gray-500 text-sm mt-1">Manage transactions and financial reports</p>
+        <p className="text-gray-500 text-sm mt-1">Gérer les transactions et les rapports financiers</p>
       </div>
 
       {/* Summary Cards */}
@@ -32,7 +32,7 @@ export default function Finance() {
               <ArrowUpRight className="w-4 h-4" /> +15%
             </span>
           </div>
-          <h3 className="text-gray-500 text-sm">Total Income</h3>
+          <h3 className="text-gray-500 text-sm">Total des Revenus</h3>
           <p className="font-display font-bold text-2xl text-white mt-1">14.2M CFA</p>
         </div>
         <div className="glass rounded-xl p-5">
@@ -44,7 +44,7 @@ export default function Finance() {
               <ArrowDownRight className="w-4 h-4" /> +8%
             </span>
           </div>
-          <h3 className="text-gray-500 text-sm">Total Expenses</h3>
+          <h3 className="text-gray-500 text-sm">Total des Dépenses</h3>
           <p className="font-display font-bold text-2xl text-white mt-1">3.8M CFA</p>
         </div>
         <div className="glass rounded-xl p-5">
@@ -53,7 +53,7 @@ export default function Finance() {
               <Wallet className="w-5 h-5 text-accent-cyan" />
             </div>
           </div>
-          <h3 className="text-gray-500 text-sm">Current Balance</h3>
+          <h3 className="text-gray-500 text-sm">Solde Actuel</h3>
           <p className="font-display font-bold text-2xl text-white mt-1">10.4M CFA</p>
         </div>
       </div>
@@ -61,7 +61,7 @@ export default function Finance() {
       {/* Transactions Table */}
       <div className="glass rounded-xl overflow-hidden">
         <div className="p-6 border-b border-dark-border">
-          <h3 className="font-display font-semibold text-lg text-white">Recent Transactions</h3>
+          <h3 className="font-display font-semibold text-lg text-white">Transactions Récentes</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -69,8 +69,8 @@ export default function Finance() {
               <tr className="border-b border-dark-border">
                 <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">ID</th>
                 <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Description</th>
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Amount</th>
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Balance</th>
+                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Montant</th>
+                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Solde</th>
                 <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-4">Date</th>
               </tr>
             </thead>

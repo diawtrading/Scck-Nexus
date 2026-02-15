@@ -2,20 +2,20 @@ import { motion } from 'framer-motion'
 import { FileText, Download, BarChart, PieChart, Table } from 'lucide-react'
 
 const reports = [
-  { id: 1, name: 'Financial Report', description: 'Revenue, expenses, and profit analysis', type: 'Finance', format: 'PDF', lastGenerated: '2026-02-15' },
-  { id: 2, name: 'Production Report', description: 'Cocoa collection and quality metrics', type: 'Production', format: 'PDF', lastGenerated: '2026-02-14' },
-  { id: 3, name: 'HR Report', description: 'Employee payroll and attendance', type: 'HR', format: 'Excel', lastGenerated: '2026-02-10' },
-  { id: 4, name: 'Inventory Report', description: 'Stock levels and valuation', type: 'Inventory', format: 'Excel', lastGenerated: '2026-02-12' },
-  { id: 5, name: 'Producer Report', description: 'Producer statistics and zones', type: 'Producers', format: 'PDF', lastGenerated: '2026-02-13' },
-  { id: 6, name: 'Customer Report', description: 'Buyer revenue and demographics', type: 'Customers', format: 'Excel', lastGenerated: '2026-02-11' },
+  { id: 1, name: 'Rapport Financier', description: 'Revenus, dépenses et analyse des bénéfices', type: 'Finance', format: 'PDF', lastGenerated: '2026-02-15' },
+  { id: 2, name: 'Rapport de Production', description: 'Collecte de cacao et métriques de qualité', type: 'Production', format: 'PDF', lastGenerated: '2026-02-14' },
+  { id: 3, name: 'Rapport RH', description: 'Masse salariale et présence des employés', type: 'HR', format: 'Excel', lastGenerated: '2026-02-10' },
+  { id: 4, name: "Rapport d'Inventaire", description: 'Niveaux de stock et évaluation', type: 'Inventory', format: 'Excel', lastGenerated: '2026-02-12' },
+  { id: 5, name: 'Rapport Producteurs', description: 'Statistiques et zones des producteurs', type: 'Producers', format: 'PDF', lastGenerated: '2026-02-13' },
+  { id: 6, name: 'Rapport Clients', description: 'Revenus et démographie des acheteurs', type: 'Customers', format: 'Excel', lastGenerated: '2026-02-11' },
 ]
 
-const reportTypes = ['All', 'Finance', 'Production', 'HR', 'Inventory', 'Producers', 'Customers']
+const reportTypes = ['Tous', 'Finance', 'Production', 'RH', 'Inventaire', 'Producteurs', 'Clients']
 
 export default function Reports() {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-      <div><h1 className="font-display font-bold text-2xl text-white">Reports</h1><p className="text-gray-500 text-sm mt-1">Generate and export business reports</p></div>
+      <div><h1 className="font-display font-bold text-2xl text-white">Rapports</h1><p className="text-gray-500 text-sm mt-1">Générer et exporter les rapports d'entreprise</p></div>
       
       <div className="flex gap-2 overflow-x-auto pb-2">
         {reportTypes.map((type) => (<button key={type} className="px-4 py-2 bg-white/5 border border-dark-border rounded-lg text-sm text-gray-300 hover:bg-white/10 whitespace-nowrap">{type}</button>))}
@@ -33,7 +33,7 @@ export default function Reports() {
             <div className="flex items-center justify-between pt-4 border-t border-dark-border">
               <span className="text-xs text-gray-500">{report.lastGenerated}</span>
               <button className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-accent-cyan to-accent-purple text-dark-bg text-xs font-semibold rounded-lg hover:opacity-90">
-                <Download className="w-3.5 h-3.5" /> Download
+                <Download className="w-3.5 h-3.5" /> Télécharger
               </button>
             </div>
           </div>

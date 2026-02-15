@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Plus, Search, Filter, MoreVertical, MapPin, Phone, Mail, Edit, Trash2 } from 'lucide-react'
 import { producersService } from '../services/api'
+import Modal from '../components/Modal'
 
 export default function Producers() {
   const [producers, setProducers] = useState([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [showModal, setShowModal] = useState(false)
+  const [newProducer, setNewProducer] = useState({ nom: '', zone: '', superficie: '', telephone: '' })
 
   useEffect(() => {
     fetchProducers()
@@ -40,6 +42,28 @@ export default function Producers() {
     return status === 'Active' 
       ? 'bg-green-500/20 text-green-400 border-green-500/30' 
       : 'bg-red-500/20 text-red-400 border-red-500/30'
+  }
+
+  const addProducer = () => {
+    const { nom, zone, superficie, telephone } = newProducer
+    if (!nom) return
+    const id = 'PROD-' + Math.random().toString(36).slice(2, 7).toUpperCase()
+    const producer = {
+      id,
+      nom,
+      zone: zone || 'Unknown',
+      superficie: Number(superficie) || 0,
+      statut: 'Active',
+      telephone: telephone || ''
+    }
+    setProducers((prev) => [...prev, producer])
+    setNewProducer({ nom: '', zone: '', superficie: '', telephone: '' })
+    setShowModal(false)
+  }
+
+  const handleSubmitNewProducer = (e) => {
+    e.preventDefault()
+    addProducer()
   }
 
   return (
@@ -80,6 +104,54 @@ export default function Producers() {
           Filter
         </button>
       </div>
+
+      {/* Add Producer Modal */}
+      <Modal isOpen={showModal} title="Ajouter Producteur" onClose={() => setShowModal(false)}>
+        <form onSubmit={handleSubmitNewProducer} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="col-span-1">
+            <label className="block text-sm font-medium text-gray-300 mb-1">Nom</label>
+            <input
+              className="w-full px-3 py-2 bg-white/5 border border-dark-border rounded-md text-white"
+              value={newProducer.nom}
+              onChange={(e) => setNewProducer({ ...newProducer, nom: e.target.value })}
+              placeholder="Nom du producteur"
+              required
+            />
+          </div>
+          <div className="col-span-1">
+            <label className="block text-sm font-medium text-gray-300 mb-1">Zone</label>
+            <input
+              className="w-full px-3 py-2 bg-white/5 border border-dark-border rounded-md text-white"
+              value={newProducer.zone}
+              onChange={(e) => setNewProducer({ ...newProducer, zone: e.target.value })}
+              placeholder="Zone"
+            />
+          </div>
+          <div className="col-span-1">
+            <label className="block text-sm font-medium text-gray-300 mb-1">Surface (ha)</label>
+            <input
+              type="number"
+              className="w-full px-3 py-2 bg-white/5 border border-dark-border rounded-md text-white"
+              value={newProducer.superficie ?? ''}
+              onChange={(e) => setNewProducer({ ...newProducer, superficie: e.target.value })}
+              placeholder="Surface en ha"
+            />
+          </div>
+          <div className="col-span-1">
+            <label className="block text-sm font-medium text-gray-300 mb-1">Téléphone</label>
+            <input
+              className="w-full px-3 py-2 bg-white/5 border border-dark-border rounded-md text-white"
+              value={newProducer.telephone}
+              onChange={(e) => setNewProducer({ ...newProducer, telephone: e.target.value })}
+              placeholder="Téléphone"
+            />
+          </div>
+        </form>
+        <div className="mt-4 flex justify-end space-x-2">
+          <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 rounded-md bg-white/10 text-gray-100">Cancel</button>
+          <button type="button" onClick={handleSubmitNewProducer} className="px-4 py-2 rounded-md bg-gradient-to-r from-accent-cyan to-accent-purple text-white">Add</button>
+        </div>
+      </Modal>
 
       {/* Table */}
       <div className="glass rounded-xl overflow-hidden">

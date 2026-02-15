@@ -57,7 +57,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 }
 
-export default function Dashboard() {
+export { default } from '../../frontend/src/pages/Dashboard.jsx'
   const [kpis, setKpis] = useState(null)
   const [loading, setLoading] = useState(true)
 
