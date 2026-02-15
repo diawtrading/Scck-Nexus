@@ -31,11 +31,9 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // Logging
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
-// Database initialization
-const Database = require('./db/database');
-const db = new Database();
-
-// Initialize database
+// Database initialization (supports both SQLite and Supabase)
+const UnifiedDatabase = require('./db/unified');
+const db = new UnifiedDatabase();
 db.initialize();
 
 // Static files

@@ -6,8 +6,8 @@ const Joi = require('joi');
 module.exports = (db) => {
     const router = express.Router();
     const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+    const isSupabase = db.isUsingSupabase();
 
-    // Validation schemas
     const loginSchema = Joi.object({
         email: Joi.string().email().required(),
         password: Joi.string().min(6).required()
@@ -20,7 +20,6 @@ module.exports = (db) => {
         role: Joi.string().valid('Admin', 'CEO', 'CFO', 'COO').required()
     });
 
-    // Generate JWT token
     const generateToken = (user) => {
         return jwt.sign(
             { id: user.id, email: user.email, role: user.role },
@@ -29,7 +28,6 @@ module.exports = (db) => {
         );
     };
 
-    // Middleware to verify token
     const verifyToken = (req, res, next) => {
         const token = req.headers.authorization?.split(' ')[1];
         
@@ -46,30 +44,30 @@ module.exports = (db) => {
         }
     };
 
-    // Login endpoint
-    router.post('/login', (req, res) => {
+    router.post('/login', async (req, res) => {
         try {
-            // Validate input
             const { error, value } = loginSchema.validate(req.body);
             if (error) {
                 return res.status(400).json({ success: false, error: error.details[0].message });
             }
 
-            // Find user
-            const user = db.get('SELECT * FROM users WHERE email = ?', [value.email]);
+            let user;
+            if (isSupabase) {
+                user = await db.getAsync('users', { email: value.email });
+            } else {
+                user = db.get('SELECT * FROM users WHERE email = ?', [value.email]);
+            }
             
             if (!user) {
                 return res.status(401).json({ success: false, error: 'Invalid credentials' });
             }
 
-            // Verify password
             const passwordValid = bcrypt.compareSync(value.password, user.password);
             
             if (!passwordValid) {
                 return res.status(401).json({ success: false, error: 'Invalid credentials' });
             }
 
-            // Generate token
             const token = generateToken(user);
             
             res.json({
@@ -90,10 +88,8 @@ module.exports = (db) => {
         }
     });
 
-    // Register endpoint (for admin purposes)
-    router.post('/register', verifyToken, (req, res) => {
+    router.post('/register', verifyToken, async (req, res) => {
         try {
-            // Only admins can register new users
             if (req.user.role !== 'Admin') {
                 return res.status(403).json({ success: false, error: 'Unauthorized' });
             }
@@ -103,21 +99,36 @@ module.exports = (db) => {
                 return res.status(400).json({ success: false, error: error.details[0].message });
             }
 
-            // Check if user exists
-            const existingUser = db.get('SELECT id FROM users WHERE email = ?', [value.email]);
+            let existingUser;
+            if (isSupabase) {
+                existingUser = await db.getAsync('users', { email: value.email });
+            } else {
+                existingUser = db.get('SELECT id FROM users WHERE email = ?', [value.email]);
+            }
+            
             if (existingUser) {
                 return res.status(400).json({ success: false, error: 'User already exists' });
             }
 
-            // Hash password
             const hashedPassword = bcrypt.hashSync(value.password, 10);
-
-            // Create user
             const departmentValue = value.department || 'Administration';
-            const result = db.run(
-                'INSERT INTO users (email, password, name, role, department) VALUES (?, ?, ?, ?, ?)',
-                [value.email, hashedPassword, value.name, value.role, departmentValue]
-            );
+
+            let result;
+            if (isSupabase) {
+                result = await db.runAsync('users', {
+                    email: value.email,
+                    password: hashedPassword,
+                    name: value.name,
+                    role: value.role,
+                    department: departmentValue,
+                    created_at: new Date().toISOString()
+                });
+            } else {
+                result = db.run(
+                    'INSERT INTO users (email, password, name, role, department) VALUES (?, ?, ?, ?, ?)',
+                    [value.email, hashedPassword, value.name, value.role, departmentValue]
+                );
+            }
 
             res.json({
                 success: true,
@@ -130,10 +141,14 @@ module.exports = (db) => {
         }
     });
 
-    // Verify token endpoint
-    router.get('/verify', verifyToken, (req, res) => {
+    router.get('/verify', verifyToken, async (req, res) => {
         try {
-            const user = db.get('SELECT * FROM users WHERE id = ?', [req.user.id]);
+            let user;
+            if (isSupabase) {
+                user = await db.getAsync('users', { id: req.user.id });
+            } else {
+                user = db.get('SELECT * FROM users WHERE id = ?', [req.user.id]);
+            }
             
             if (!user) {
                 return res.status(404).json({ success: false, error: 'User not found' });
@@ -156,7 +171,6 @@ module.exports = (db) => {
         }
     });
 
-    // Demo login (for testing)
     router.post('/demo-login', (req, res) => {
         try {
             const demoAccounts = {
