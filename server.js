@@ -87,8 +87,19 @@ app.get('/api/health', (req, res) => {
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`SCCK ERP NEXUS Server running on port ${PORT}`);
-    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('  SCCK ERP NEXUS Server');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log(`  🌐 Port: ${PORT}`);
+    console.log(`  🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`  💾 Database: ${db.isUsingSupabase() ? 'Supabase ☁️' : 'SQLite 📁'}`);
+    if (db.isUsingSupabase()) {
+        console.log(`  🔌 Connected to: ${process.env.SUPABASE_URL}`);
+    }
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log(`  📡 API: http://localhost:${PORT}/api`);
+    console.log(`  💻 Web: http://localhost:${PORT}`);
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 });
 
 // Graceful shutdown
